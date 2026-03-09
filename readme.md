@@ -4,19 +4,19 @@ API RESTful para gerenciamento de pedidos, desenvolvida com Node.js, Express e S
 
 ## Disclaimer
 
-Embora **Node.js n„o seja a stack com a qual trabalho diariamente**, minha experiÍncia principal est· na plataforma **.NET**, onde desenvolvo APIs e aplicaÁıes backend no meu dia a dia. Ainda assim, j· tive contato prÈvio com **Node.js** em projetos acadÍmicos e utilizei este desafio como uma oportunidade para revisitar e explorar novamente esse ecossistema.
+Embora **Node.js n√£o seja a stack com a qual trabalho diariamente**, minha experi√™ncia principal est√° na plataforma **.NET**, onde desenvolvo APIs e aplica√ß√µes backend no meu dia a dia. Ainda assim, j√° tive contato pr√©vio com **Node.js** em projetos acad√™micos e utilizei este desafio como uma oportunidade para revisitar e explorar novamente esse ecossistema.
 
-Durante o desenvolvimento, utilizei **ferramentas de IA como apoio** para esclarecer detalhes especÌficos do ecossistema **Node.js/Express**. No entanto, as decisıes relacionadas ‡ **arquitetura em camadas**, **organizaÁ„o do projeto**, **validaÁ„o de dados**, **tratamento de erros** e outras boas pr·ticas aplicadas refletem princÌpios de engenharia de software que j· utilizo rotineiramente no desenvolvimento com **.NET**.
+Durante o desenvolvimento, utilizei **ferramentas de IA como apoio** para esclarecer detalhes espec√≠ficos do ecossistema **Node.js/Express**. No entanto, as decis√µes relacionadas √† **arquitetura em camadas**, **organiza√ß√£o do projeto**, **valida√ß√£o de dados**, **tratamento de erros** e outras boas pr√°ticas aplicadas refletem princ√≠pios de engenharia de software que j√° utilizo rotineiramente no desenvolvimento com **.NET**.
 
-Encarei este desafio como uma oportunidade de demonstrar **capacidade de adaptaÁ„o, aprendizado r·pido e aplicaÁ„o consistente de boas pr·ticas de engenharia**, independentemente da stack utilizada.
+Encarei este desafio como uma oportunidade de demonstrar **capacidade de adapta√ß√£o, aprendizado r√°pido e aplica√ß√£o consistente de boas pr√°ticas de engenharia**, independentemente da stack utilizada.
 
 ## Tecnologias e Libs
 
 - [Node.js]
 - [Express]
 - [Better-SQLite3]
-- [Zod] - ValidaÁ„o de dados
-- [Swagger] - DocumentaÁ„o da API
+- [Zod] - Valida√ß√£o de dados
+- [Swagger] - Documenta√ß√£o da API
 
 ## Arquitetura
 
@@ -25,43 +25,43 @@ A API segue uma arquitetura em 3 camadas:
 | Camada         | Responsabilidade                         |
 | -------------- | ---------------------------------------- |
 | **Controller** | Recebe requests e retorna responses HTTP |
-| **Service**    | Regras de negÛcio e validaÁıes           |
-| **Repository** | Acesso e manipulaÁ„o do banco de dados   |
+| **Service**    | Regras de neg√≥cio e valida√ß√µes           |
+| **Repository** | Acesso e manipula√ß√£o do banco de dados   |
 
-Essa estruturaÁ„o permite a divis„o correta de responsabilidades, alÈm de tornar a api mais
-legÌvel e manutenÌvel.
+Essa estrutura√ß√£o permite a divis√£o correta de responsabilidades, al√©m de tornar a api mais
+leg√≠vel e manuten√≠vel.
 
-## Decisıes TÈcnicas
+## Decis√µes T√©cnicas
 
-Algumas decisıes foram tomadas para manter o projeto simples, porÈm organizado:
+Algumas decis√µes foram tomadas para manter o projeto simples, por√©m organizado:
 
-- Uso de Zod para validaÁ„o de dados
-- SeparaÁ„o clara entre camada HTTP e regra de negÛcio
+- Uso de Zod para valida√ß√£o de dados
+- Separa√ß√£o clara entre camada HTTP e regra de neg√≥cio
 - Tratamento centralizado de erros
 
 # Como Executar o Projeto
 
 ```bash
-# Clone o repositÛrio
-git clone https://github.com/seu-usuario/orders-api.git
+# Clone o reposit√≥rio
+git clone https://github.com/LucassPimentel/teste.git
 
-# Instale as dependÍncias
+# Instale as depend√™ncias
 npm install
 
 # Modo desenvolvimento (com hot reload)
 npm run dev
 
-# Modo produÁ„o
+# Modo produ√ß√£o
 npm start
 
-# Acesse a documentaÁ„o interativa via Swagger
+# Acesse a documenta√ß√£o interativa via Swagger
 http://localhost:3000/api-docs
 ```
 
 ## Trade-offs
 
-Algumas decisıes foram tomadas para manter o projeto simples dentro do tempo disponÌvel:
+Algumas decis√µes foram tomadas para manter o projeto simples dentro do tempo dispon√≠vel:
 
-- N„o foi implementado sistema de autenticaÁ„o
+- N√£o foi implementado sistema de autentica√ß√£o
 - O banco de dados foi simplificado
-- N„o foram adicionados testes automatizados
+- N√£o foram adicionados testes automatizados
