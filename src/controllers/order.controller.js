@@ -61,7 +61,43 @@ function create(req, res) {
 }
 
 function update(req, res) {
-  throw new Error("Not implemented");
+  const id = req.params.id;
+  const data = req.validatedData;
+
+  const updateOrder = db.prepare(
+    'UPDATE "Order" SET Value = ?, CreationDate = ? WHERE OrderId = ?'
+  );
+
+  const insertItem = db.prepare(
+    "INSERT INTO Items (ProductId, Quantity, Price, OrderId) VALUES (?, ?, ?, ?)"
+  );
+
+  const deleteItems = db.prepare("DELETE FROM Items WHERE OrderId = ?");
+
+  const transaction = db.transaction((order) => {
+    var updateResult = updateOrder.run(
+      order.valorTotal,
+      order.dataCriacao.toISOString(),
+      id.trim()
+    );
+
+    if (updateResult.changes === 0) throw new Error("Pedido não encontrado");
+
+    deleteItems.run(id.trim());
+
+    for (const item of order.items) {
+      insertItem.run(
+        item.idItem.trim(),
+        item.quantidadeItem,
+        item.valorItem,
+        id.trim()
+      );
+    }
+  });
+
+  transaction(data);
+
+  return res.status(200).json(data);
 }
 
 function remove(req, res) {
