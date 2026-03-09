@@ -1,3 +1,4 @@
+const { AppError } = require("../errors/appError");
 const orderService = require("../services/order.service");
 
 function list(req, res) {
@@ -48,15 +49,11 @@ function remove(req, res) {
 }
 
 function handleError(res, error) {
-  if (error.message.includes("não encontrado")) {
-    return res.status(404).json({ error: error.message });
+  if (error instanceof AppError) {
+    return res.status(error.statusCode).json({ error: error.message });
   }
 
-  if (error.message.includes("ID já existe")) {
-    return res.status(400).json({ error: error.message });
-  }
-
-  return res.status(500).json({ error: "Erro interno do servidor." });
+  return res.status(500).json({ error: "Erro interno do servidor" });
 }
 
 module.exports = {
