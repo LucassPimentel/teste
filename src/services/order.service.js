@@ -19,6 +19,12 @@ function getById(id) {
 }
 
 function create(data) {
+  const existingOrder = orderRepository.findById(data.numeroPedido);
+
+  if (existingOrder.length > 0) {
+    throw new Error("Pedido com esse ID já existe");
+  }
+
   orderRepository.create(data);
   return data;
 }

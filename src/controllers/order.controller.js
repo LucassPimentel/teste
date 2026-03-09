@@ -51,7 +51,12 @@ function handleError(res, error) {
   if (error.message.includes("não encontrado")) {
     return res.status(404).json({ error: error.message });
   }
-  return res.status(500).json({ error: "Erro interno do servidor" });
+
+  if (error.message.includes("ID já existe")) {
+    return res.status(400).json({ error: error.message });
+  }
+
+  return res.status(500).json({ error: "Erro interno do servidor." });
 }
 
 module.exports = {
