@@ -29,35 +29,39 @@ function getById(req, res) {
 }
 
 function create(req, res) {
-  const data = req.validatedData;
+  try {
+    const data = req.validatedData;
 
-  const insertOrder = db.prepare(
-    'INSERT INTO "Order" (OrderId, Value, CreationDate) VALUES (?, ?, ?)'
-  );
-  const insertItem = db.prepare(
-    "INSERT INTO Items (ProductId, Quantity, Price, OrderId) VALUES (?, ?, ?, ?)"
-  );
-
-  const transaction = db.transaction((order) => {
-    insertOrder.run(
-      order.numeroPedido.trim(),
-      order.valorTotal,
-      order.dataCriacao.toISOString()
+    const insertOrder = db.prepare(
+      'INSERT INTO "Order" (OrderId, Value, CreationDate) VALUES (?, ?, ?)'
+    );
+    const insertItem = db.prepare(
+      "INSERT INTO Items (ProductId, Quantity, Price, OrderId) VALUES (?, ?, ?, ?)"
     );
 
-    for (const item of order.items) {
-      insertItem.run(
-        item.idItem.trim(),
-        item.quantidadeItem,
-        item.valorItem,
-        order.numeroPedido.trim()
+    const transaction = db.transaction((order) => {
+      insertOrder.run(
+        order.numeroPedido.trim(),
+        order.valorTotal,
+        order.dataCriacao.toISOString()
       );
-    }
-  });
 
-  transaction(data);
+      for (const item of order.items) {
+        insertItem.run(
+          item.idItem.trim(),
+          item.quantidadeItem,
+          item.valorItem,
+          order.numeroPedido.trim()
+        );
+      }
+    });
 
-  return res.status(201).json(data);
+    transaction(data);
+
+    return res.status(201).json(data);
+  } catch (error) {
+    handleError(res, error);
+  }
 }
 
 function update(req, res) {
@@ -82,7 +86,7 @@ function update(req, res) {
         id.trim()
       );
 
-      if (updateResult.changes === 0) throw new Error("Pedido não encontrado");
+      validateAffectedRows(updateResult);
 
       deleteItems.run(id.trim());
 
@@ -100,15 +104,34 @@ function update(req, res) {
 
     return res.status(200).json(data);
   } catch (error) {
-    if (error.message === "Pedido não encontrado") {
-      return res.status(404).json({ error: error.message });
-    }
-    return res.status(500).json({ error: "Erro interno do servidor" });
+    handleError(res, error);
   }
 }
 
 function remove(req, res) {
-  throw new Error("Not implemented");
+  try {
+    const deleteOrder = db.prepare('DELETE FROM "Order" WHERE OrderId = ?');
+    var deletedResult = deleteOrder.run(req.params.id.trim());
+
+    validateAffectedRows(deletedResult);
+
+    return res.status(204).send();
+  } catch (error) {
+    handleError(res, error);
+  }
+}
+
+function validateAffectedRows(result) {
+  if (result.changes === 0) {
+    throw new Error("Operação não realizada, pedido não encontrado.");
+  }
+}
+
+function handleError(res, error) {
+  if (error.message.includes("não encontrado")) {
+    return res.status(404).json({ error: error.message });
+  }
+  return res.status(500).json({ error: "Erro interno do servidor" });
 }
 
 module.exports = {
