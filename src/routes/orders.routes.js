@@ -3,16 +3,16 @@
 
 const { Router } = require("express");
 const OrderController = require("../controllers/order.controller");
-const { orderSchema } = require("../schemas/order.schema");
+const { postOrderSchema, putOrderSchema } = require("../schemas/order.schema");
 const validate = require("../middlewares/validate");
 
 const router = Router();
 
 router.get("/", OrderController.list);
 router.get("/:id", OrderController.getById);
-router.post("/", validate(orderSchema), OrderController.create);
+router.post("/", validate(postOrderSchema), OrderController.create);
 
-router.put("/:id", validate(orderSchema), OrderController.update);
+router.put("/:id", validate(putOrderSchema), OrderController.update);
 router.delete("/:id", OrderController.remove);
 
 module.exports = router;
